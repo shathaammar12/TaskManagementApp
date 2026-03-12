@@ -3,11 +3,10 @@
 </header>
 
 <main class="container">
-    <!-- Search and Filters -->
+    <!-- Controls -->
     <div class="controls">
         <input type="text" placeholder="Search by title" class="search-field">
 
-        <!-- Status Filter -->
         <select class="filter-select" id="status-filter">
             <option value="">All Status</option>
             <option value="To Do">To Do</option>
@@ -15,7 +14,6 @@
             <option value="Done">Done</option>
         </select>
 
-        <!-- Priority Filter -->
         <select class="filter-select" id="priority-filter">
             <option value="">All Priorities</option>
             <option value="Low">Low</option>
@@ -23,8 +21,7 @@
             <option value="High">High</option>
         </select>
 
-        <!-- Add Task Button -->
-        <button class="btn-add">Add Task</button>
+        <button class="btn-add" (click)="addTask()">Add Task</button>
     </div>
 
     <!-- Task Table -->
@@ -34,26 +31,26 @@
                 <tr>
                     <th>Id</th>
                     <th>Title</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Due Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Finish Angular App</td>
-                    <td>In Progress</td>
-                    <td>High</td>
-                    <td>2026-03-15</td>
-                    <td class="actions">
-                        <button class="btn-view">View</button>
-                        <button class="btn-edit">Edit</button>
-                        <button class="btn-delete">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
+  <tr *ngFor="let item of taskList; let i = index">
+    <td>{{item.Id}}</td>
+    <td>
+      {{item.title}}
+      <div class="task-tags">
+        <span class="status" [ngClass]="item.status.toLowerCase().replace(' ', '-')">{{item.status}}</span>
+        <span class="priority" [ngClass]="item.priority.toLowerCase()">{{item.priority}}</span>
+      </div>
+    </td>
+    <td class="actions">
+      <button class="btn-view">View</button>
+      <button class="btn-edit" (click)="onEdit(item)">Edit</button>
+      <button class="btn-delete" (click)="onDelete(item)">Delete</button>
+    </td>
+  </tr>
+</tbody>
         </table>
     </div>
 </main>

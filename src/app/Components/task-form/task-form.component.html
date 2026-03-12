@@ -1,0 +1,44 @@
+  <h2>{{ isEditMode ? 'Update Task' : 'Add New Task' }}</h2>
+
+  <form [formGroup]="TaskForm">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input id="title" formControlName="title" placeholder="Enter task title" />
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        <option value="">Select status</option>
+        <option>To Do</option>
+        <option>In Progress</option>
+        <option>Done</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select id="priority" formControlName="priority">
+        <option value="">Select priority</option>
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="dueDate">Due Date</label>
+      <input type="date" id="dueDate" formControlName="dueDate" />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" placeholder="Enter description"></textarea>
+    </div>
+
+  <div class="buttons">
+    <button type="submit" class="save-btn" (click)="onSave()">Save</button>
+    <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
+  </div>
+
+</form>
