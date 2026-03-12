@@ -1,0 +1,59 @@
+<header class="app-header">
+    <h1>Tasks Management Application</h1>
+</header>
+
+<main class="container">
+    <!-- Search and Filters -->
+    <div class="controls">
+        <input type="text" placeholder="Search by title" class="search-field">
+
+        <!-- Status Filter -->
+        <select class="filter-select" id="status-filter">
+            <option value="">All Status</option>
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+        </select>
+
+        <!-- Priority Filter -->
+        <select class="filter-select" id="priority-filter">
+            <option value="">All Priorities</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <!-- Add Task Button -->
+        <button class="btn-add">Add Task</button>
+    </div>
+
+    <!-- Task Table -->
+    <div class="task-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Finish Angular App</td>
+                    <td>In Progress</td>
+                    <td>High</td>
+                    <td>2026-03-15</td>
+                    <td class="actions">
+                        <button class="btn-view">View</button>
+                        <button class="btn-edit">Edit</button>
+                        <button class="btn-delete">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
