@@ -5,5 +5,5 @@ export class TaskModel {
   status: 'To Do' | 'In Progress' | 'Done' = 'To Do';
   priority: 'Low' | 'Medium' | 'High' = 'Low';  
   dueDate: string = '';        
-  createdAt: string = '';     
+  createdAt: Date = new Date();     
 }

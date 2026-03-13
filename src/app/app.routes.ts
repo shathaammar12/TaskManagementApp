@@ -17,5 +17,10 @@ export const routes: Routes = [
     {
         path: 'tasks/edit/:id',
         loadComponent: () => import('./Components/task-form/task-form.component').then(m => m.TaskFormComponent)
+    },
+    {
+        path: 'tasks/:id',
+        loadComponent: () => import('./Components/task-details/task-details.component')
+        .then(m => m.TaskDetailsComponent)
     }
 ];

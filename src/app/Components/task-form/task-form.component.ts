@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskModel } from '../../Model/Task';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TaskService } from '../../Services/TaskService';
 
 @Component({
   selector: 'app-task-form',
@@ -13,17 +14,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class TaskFormComponent {
   isEditMode: boolean = false;
   TaskForm: FormGroup = new FormGroup({});
-  taskObj: TaskModel = new TaskModel();
   taskList: TaskModel[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute,
+    private taskService: TaskService) {
     this.createForm();
-
-    const oldData = localStorage.getItem("TaskData");
-    if(oldData != null) {
-      this.taskList = JSON.parse(oldData);
-    }
-
+    this.taskList = this.taskService.getAllTasks();
+    
     const idParam = this.route.snapshot.paramMap.get('id');
     if(idParam) {
       const taskId = +idParam; 
@@ -45,39 +44,24 @@ export class TaskFormComponent {
 
   createForm() {
     this.TaskForm = new FormGroup({
-      Id: new FormControl(this.taskObj.Id || 0),
-      title: new FormControl(this.taskObj.title || '', Validators.required),
-      description: new FormControl(this.taskObj.description || ''),
-      status: new FormControl(this.taskObj.status || '', Validators.required),
-      priority: new FormControl(this.taskObj.priority || '', Validators.required),
-      dueDate: new FormControl(this.taskObj.dueDate || ''),
-      createdAt: new FormControl(this.taskObj.createdAt || new Date())
+      Id: new FormControl(0),
+      title: new FormControl('', Validators.required),
+      description: new FormControl(''),
+      status: new FormControl('', Validators.required),
+      priority: new FormControl('', Validators.required),
+      dueDate: new FormControl(''),
+      createdAt: new FormControl(new Date())
     });
   }
 
   onSave() {
-    const oldData = localStorage.getItem("TaskData");
-    if(oldData != null) {
-      this.taskList = JSON.parse(oldData);
-    }
-
+    const taskValue: TaskModel = this.TaskForm.value;
     if(this.isEditMode) {
-      const index = this.taskList.findIndex(t => t.Id === this.TaskForm.value.Id);
-      if(index !== -1) {
-        this.taskList[index] = this.TaskForm.value;
-      }
-      this.isEditMode = false;  
+      this.taskService.updateTask(taskValue);
+      this.isEditMode = false;
     } else {
-      this.TaskForm.controls['createdAt'].setValue(new Date());
-      this.taskList.unshift(this.TaskForm.value);
+      this.taskService.addTask(taskValue);
     }
-   
-    this.taskList.forEach((task, index) => {
-      task.Id = index + 1;
-    });
-
-    localStorage.setItem("TaskData", JSON.stringify(this.taskList));
-
     this.TaskForm.reset();
     this.router.navigate(['/tasks']);
   }

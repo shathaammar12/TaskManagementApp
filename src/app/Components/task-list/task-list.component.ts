@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { TaskModel } from '../../Model/Task';
 import { CommonModule } from '@angular/common';
+import { TaskService } from '../../Services/TaskService';
 
 @Component({
   selector: 'task-list',
@@ -17,19 +18,30 @@ import { CommonModule } from '@angular/common';
   styleUrl: './task-list.component.scss'
 })
 
-export class TaskListComponent implements OnInit {
+export class TaskListComponent {
   taskList: TaskModel[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private taskService: TaskService) {}
 
   ngOnInit() {
     this.loadTasks();
   }
 
   loadTasks() {
-    const data = localStorage.getItem("TaskData");
-    if (data) {
-      this.taskList = JSON.parse(data);
+    this.taskList = this.taskService.getAllTasks();
+  }
+
+  onEdit(task: TaskModel) {
+    this.router.navigate(['/tasks/edit', task.Id]);
+  }
+
+  onDelete(id: number) {
+    const isDelete = confirm("Are you sure you want to delete this task?");
+    if(isDelete) {
+      this.taskService.deleteTask(id);
+      this.loadTasks();
     }
   }
 
@@ -37,19 +49,7 @@ export class TaskListComponent implements OnInit {
     this.router.navigate(['/tasks/new']);
   }
 
-  onEdit(item: TaskModel) {
-  this.router.navigate(['/tasks/edit', item.Id]);
-}
-
-  onDelete(item: TaskModel) {
-  const isDelete = confirm(`Are you sure you want to delete "${item.title}"?`);
-  if(isDelete) {
-    const index = this.taskList.findIndex(m => m.Id === item.Id);
-    if(index !== -1) this.taskList.splice(index, 1);
-
-    this.taskList.forEach((task, i) => task.Id = i + 1);
-
-    localStorage.setItem("TaskData", JSON.stringify(this.taskList));
+  onView(task: TaskModel) {
+    this.router.navigate(['/tasks', task.Id]);
   }
-}
 }
