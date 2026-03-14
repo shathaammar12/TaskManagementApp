@@ -20,6 +20,9 @@ import { TaskService } from '../../Services/TaskService';
 
 export class TaskListComponent {
   taskList: TaskModel[] = [];
+  searchTitle: string = '';
+  selectedStatus: string = '';
+  selectedPriority: string = '';
 
   constructor(
     private router: Router,
@@ -51,5 +54,15 @@ export class TaskListComponent {
 
   onView(task: TaskModel) {
     this.router.navigate(['/tasks', task.Id]);
+  }
+
+  get filteredTasks() {
+    return this.taskList.filter(task => {
+      const matchesTitle = task.title.toLowerCase().includes(this.searchTitle.toLowerCase());
+      const matchesStatus = !this.selectedStatus || task.status == this.selectedStatus;
+      const matchesPriority = !this.selectedPriority || task.priority == this.selectedPriority;
+
+      return matchesTitle && matchesStatus && matchesPriority;
+    });
   }
 }
