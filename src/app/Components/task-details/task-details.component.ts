@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { TaskModel } from '../../Model/Task';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../Services/TaskService';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-task-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './task-details.component.html',
   styleUrl: './task-details.component.scss'
 })

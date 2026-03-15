@@ -1,56 +1,64 @@
 <header class="app-header">
-    <h1>Tasks Management Application</h1>
+  <h1>{{ 'APP.TITLE' | translate }}</h1>
+  <button (click)="languageService.switchLanguage('ar')">العربية</button>
+  <button (click)="languageService.switchLanguage('en')">English</button>
 </header>
 
 <main class="container">
-    <!-- Controls -->
-    <div class="controls">
-        <input type="text" [(ngModel)]="searchTitle" placeholder="Search by title" class="search-field">
+  <div class="controls">
+    <input type="text" [(ngModel)]="searchTitle"
+      [placeholder]="'TASK_LIST.SEARCH_PLACEHOLDER' | translate"
+      class="search-field">
 
-        <select [(ngModel)]="selectedStatus" class="filter-select" id="status-filter">
-            <option value="">All Status</option>
-            <option value="To Do">To Do</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Done">Done</option>
-        </select>
+    <select [(ngModel)]="selectedStatus" class="filter-select" id="status-filter">
+      <option value="">{{ 'TASK_LIST.ALL_STATUS' | translate }}</option>
+      <option value="To Do">{{ 'STATUS.TO_DO' | translate }}</option>
+      <option value="In Progress">{{ 'STATUS.IN_PROGRESS' | translate }}</option>
+      <option value="Done">{{ 'STATUS.DONE' | translate }}</option>
+    </select>
 
-        <select [(ngModel)]="selectedPriority" class="filter-select" id="priority-filter">
-            <option value="">All Priorities</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-        </select>
+    <select [(ngModel)]="selectedPriority" class="filter-select" id="priority-filter">
+      <option value="">{{ 'TASK_LIST.ALL_PRIORITIES' | translate }}</option>
+      <option value="Low">{{ 'PRIORITY.LOW' | translate }}</option>
+      <option value="Medium">{{ 'PRIORITY.MEDIUM' | translate }}</option>
+      <option value="High">{{ 'PRIORITY.HIGH' | translate }}</option>
+    </select>
 
-        <button class="btn-add" (click)="addTask()">Add Task</button>
-    </div>
+    <button class="btn-add" (click)="addTask()">
+      {{ 'TASK_LIST.ADD_TASK' | translate }}
+    </button>
+  </div>
 
-    <!-- Task Table -->
-    <div class="task-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-  <tr *ngFor="let item of filteredTasks; let i = index">
-    <td>{{i + 1}}</td>
-    <td>
-      {{item.title}}
-      <div class="task-tags">
-        <span class="status" [ngClass]="item.status.toLowerCase().replace(' ', '-')">{{item.status}}</span>
-        <span class="priority" [ngClass]="item.priority.toLowerCase()">{{item.priority}}</span>
-      </div>
-    </td>
-    <td class="actions">
-      <button class="btn-view" (click)="onView(item)">View</button>
-      <button class="btn-edit" (click)="onEdit(item)">Edit</button>
-      <button class="btn-delete" (click)="onDelete(item.Id)">Delete</button>
-    </td>
-  </tr>
-</tbody>
-        </table>
-    </div>
+  <div class="task-table">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'TASK_LIST.TABLE.ID' | translate }}</th>
+          <th>{{ 'TASK_LIST.TABLE.TITLE' | translate }}</th>
+          <th>{{ 'TASK_LIST.TABLE.ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredTasks; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            {{ item.title }}
+            <div class="task-tags">
+              <span class="status" [ngClass]="item.status.toLowerCase().replace(' ', '-')">
+                {{ 'STATUS.' + item.status.toUpperCase().replace(' ', '_') | translate }}
+              </span>
+              <span class="priority" [ngClass]="item.priority.toLowerCase()">
+                {{ 'PRIORITY.' + item.priority.toUpperCase() | translate }}
+              </span>
+            </div>
+          </td>
+          <td class="actions">
+            <button class="btn-view" (click)="onView(item)">{{ 'TASK_LIST.ACTIONS.VIEW' | translate }}</button>
+            <button class="btn-edit" (click)="onEdit(item)">{{ 'TASK_LIST.ACTIONS.EDIT' | translate }}</button>
+            <button class="btn-delete" (click)="onDelete(item.Id)">{{ 'TASK_LIST.ACTIONS.DELETE' | translate }}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </main>

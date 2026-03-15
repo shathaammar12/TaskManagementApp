@@ -3,11 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TaskModel } from '../../Model/Task';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../Services/TaskService';
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslateModule, CommonModule],
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss']
 })
@@ -55,16 +57,22 @@ export class TaskFormComponent {
   }
 
   onSave() {
-    const taskValue: TaskModel = this.TaskForm.value;
-    if(this.isEditMode) {
-      this.taskService.updateTask(taskValue);
-      this.isEditMode = false;
-    } else {
-      this.taskService.addTask(taskValue);
-    }
-    this.TaskForm.reset();
-    this.router.navigate(['/tasks']);
+  const taskValue: TaskModel = this.TaskForm.value;
+
+  if(this.isEditMode) {
+    this.taskService.updateTask(taskValue);
+    this.isEditMode = false;
+  } else {
+    this.taskService.addTask(taskValue);
   }
+
+  this.TaskForm.reset({
+    Id: 0,
+    createdAt: new Date()
+  });
+
+  this.router.navigate(['/tasks']);
+}
 
   onCancel() {
     this.router.navigate(['/tasks']);
