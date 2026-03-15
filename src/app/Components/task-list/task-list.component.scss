@@ -5,11 +5,40 @@ body {
 }
 
 .app-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
     background: linear-gradient(90deg, #1f1f1f, #3a3a3a);
     color: white;
     padding: 15px 20px;
+}
+
+.app-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.language-buttons button {
+    margin-left: 10px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
     font-size: 13px;
-    text-align: center;
+    transition: all 0.2s;
+}
+
+.language-buttons button:hover {
+    background-color: #2980b9;
+}
+
+/* الزر النشط */
+.language-buttons button.active {
+    background-color: #2ecc71;  
+    font-weight: bold;
+    transform: scale(1.05);       
 }
 
 .container {

@@ -6,7 +6,7 @@ import { isPlatformBrowser } from "@angular/common";
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
 
-  private currentLang: string = 'en';
+  private currentLang: string;
   private isBrowser: boolean;
 
   constructor(
@@ -16,17 +16,17 @@ export class LanguageService {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
-    // Check localStorage only in the browser
+    let langToUse = 'en'; 
     if (this.isBrowser) {
       const savedLang = localStorage.getItem('lang');
-      if (savedLang) this.currentLang = savedLang;
+      if (savedLang) {
+        langToUse = savedLang;
+      }
     }
 
-    // Set default fallback language
-    this.translate.setDefaultLang('en');
-
-    // Load translations
-    this.loadTranslations(this.currentLang);
+    this.currentLang = langToUse;
+    this.translate.setDefaultLang(langToUse);
+    this.loadTranslations(langToUse);
   }
 
   switchLanguage(lang: string) {

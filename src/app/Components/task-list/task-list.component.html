@@ -1,7 +1,17 @@
 <header class="app-header">
-  <h1>{{ 'APP.TITLE' | translate }}</h1>
-  <button (click)="languageService.switchLanguage('ar')">العربية</button>
-  <button (click)="languageService.switchLanguage('en')">English</button>
+  <h1 class="app-title">{{ 'APP.TITLE' | translate }}</h1>
+  <div class="language-buttons">
+    <button 
+      [class.active]="languageService.getCurrentLanguage() === 'ar'"
+      (click)="languageService.switchLanguage('ar')">
+      العربية
+    </button>
+    <button 
+      [class.active]="languageService.getCurrentLanguage() === 'en'"
+      (click)="languageService.switchLanguage('en')">
+      English
+    </button>
+  </div>
 </header>
 
 <main class="container">
